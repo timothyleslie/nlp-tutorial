@@ -49,14 +49,14 @@ if __name__ == '__main__':
     number_dict = {i: w for i, w in enumerate(word_list)}
     n_class = len(word_dict)  # number of Vocabulary
 
-    model = NNLM()
+    model = NNLM().cuda()
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     input_batch, target_batch = make_batch()
-    input_batch = torch.LongTensor(input_batch)
-    target_batch = torch.LongTensor(target_batch)
+    input_batch = torch.LongTensor(input_batch).cuda()
+    target_batch = torch.LongTensor(target_batch).cuda()
 
     # Training
     for epoch in range(5000):
