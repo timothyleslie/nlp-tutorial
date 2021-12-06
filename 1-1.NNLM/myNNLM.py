@@ -12,6 +12,8 @@ def make_batch():
         word = sen.split() # space tokenizer
         input = [word_dict[n] for n in word[:-1]] # create (1~n-1) as input
         target = word_dict[word[-1]] # create (n) as target, We usually call this 'casual language model'
+        # print(input)
+        # print(target)
 
         input_batch.append(input)
         target_batch.append(target)
@@ -44,8 +46,9 @@ if __name__ == '__main__':
     sentences = ["i like dog", "i love coffee", "i hate milk"]
 
     word_list = " ".join(sentences).split()
-    word_list = list(set(word_list))
-    word_dict = {w: i for i, w in enumerate(word_list)}
+    word_list = list(set(word_list)) # 集合操作去掉word_list里面的重复单词
+    print(word_list) # set操作每次出现的顺序都不一样
+    word_dict = {w: i for i, w in enumerate(word_list)} # 将word_list转换成字典 {'like': 0, 'milk': 1, 'hate': 2, 'i': 3, 'love': 4, 'coffee': 5, 'dog': 6}
     number_dict = {i: w for i, w in enumerate(word_list)}
     n_class = len(word_dict)  # number of Vocabulary
 
@@ -73,6 +76,7 @@ if __name__ == '__main__':
 
     # Predict
     predict = model(input_batch).data.max(1, keepdim=True)[1]
+    print(predict)
 
     # Test
     print([sen.split()[:2] for sen in sentences], '->', [number_dict[n.item()] for n in predict.squeeze()])
